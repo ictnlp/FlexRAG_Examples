@@ -1,4 +1,3 @@
-import logging
 import os
 import re
 from copy import deepcopy
@@ -13,9 +12,10 @@ from librarian.retriever import (
 )
 from librarian.prompt import ChatPrompt
 from librarian.models import GENERATORS, GenerationConfig
+from librarian.utils import LOGGER_MANAGER
 
 
-logger = logging.getLogger("ReAct")
+logger = LOGGER_MANAGER.get_logger("ReAct")
 GeneratorConfig = GENERATORS.make_config()
 
 
