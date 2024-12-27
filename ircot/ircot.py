@@ -55,7 +55,7 @@ class IRCoTAssistant(AssistantBase):
         # set configs
         self.max_iter = cfg.max_iteration
         self.cfg = cfg
-        self.cfg.stop_str = "\n"
+        self.cfg.stop_str = ["\n", "."]
         return
 
     def answer(

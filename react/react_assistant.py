@@ -69,7 +69,7 @@ class ReActAssistant(AssistantBase):
             # generate thought and action
             prompt = self.gen_prompt + question + "\n" + f"Thought {step}:"
             gen_cfg = deepcopy(self.cfg)
-            gen_cfg.stop_str = f"\nObservation {step}:"
+            gen_cfg.stop_str = [f"\nObservation {step}:"]
             thought_action = self.generator.generate(
                 [prompt], generation_config=gen_cfg
             )[0][0]
@@ -80,7 +80,7 @@ class ReActAssistant(AssistantBase):
                 step += 1
                 thought = thought_action.strip().split("\n")[0]
                 gen_cfg = deepcopy(self.cfg)
-                gen_cfg.stop_str = "\n"
+                gen_cfg.stop_str = ["\n"]
                 action = self.generator.generate(
                     [prompt + f"Thought {step}: {thought}\nAction {step}:"],
                     generation_config=gen_cfg,
