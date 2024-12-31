@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from librarian.assistant import (
+from flexrag.assistant import (
     ASSISTANTS,
     AssistantBase,
     SearchHistory,
 )
-from librarian.models import GENERATORS, GenerationConfig
-from librarian.retriever import DenseRetriever, DenseRetrieverConfig, RetrievedContext
+from flexrag.models import GENERATORS, GenerationConfig
+from flexrag.retriever import DenseRetriever, DenseRetrieverConfig, RetrievedContext
 
 GeneratorConfig = GENERATORS.make_config()
 

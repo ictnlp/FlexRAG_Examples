@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 
-from librarian.assistant import ASSISTANTS, SearchHistory
-from librarian.retriever import RetrievedContext
-from librarian.utils import Choices
+from flexrag.assistant import ASSISTANTS, SearchHistory
+from flexrag.retriever import RetrievedContext
+from flexrag.utils import Choices
 
 from .dense_searcher import DenseSearcher, DenseSearcherConfig
 from .keyword_searcher import KeywordSearcher, KeywordSearcherConfig

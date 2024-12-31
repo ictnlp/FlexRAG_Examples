@@ -1,3 +1,3 @@
-# Librarian Examples
+# FlexRAG Examples
 
-Repository for Reproducing RAG Algorithms Using the Librarian Framework
+Repository for reproducing RAG algorithms using the [FlexRAG](https://github.com/ZhuochengZhang98/flexrag) Framework.

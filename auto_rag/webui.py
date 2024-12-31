@@ -5,7 +5,7 @@ import gradio as gr
 from gradio import ChatMessage
 from openai import OpenAI
 
-from librarian.retriever import DenseRetriever
+from flexrag.retriever import DenseRetriever
 
 argparser = ArgumentParser()
 argparser.add_argument("--search_engine", type=str, default="dense")

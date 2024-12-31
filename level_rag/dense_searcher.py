@@ -2,14 +2,14 @@ import os
 from copy import deepcopy
 from dataclasses import dataclass
 
-from librarian.assistant import ASSISTANTS, SearchHistory
-from librarian.prompt import ChatPrompt, ChatTurn
-from librarian.retriever import DenseRetriever, DenseRetrieverConfig, RetrievedContext
-from librarian.utils import LOGGER_MANAGER, Choices
+from flexrag.assistant import ASSISTANTS, SearchHistory
+from flexrag.prompt import ChatPrompt, ChatTurn
+from flexrag.retriever import DenseRetriever, DenseRetrieverConfig, RetrievedContext
+from flexrag.utils import LOGGER_MANAGER, Choices
 
 from .searcher import AgentSearcher, AgentSearcherConfig
 
-logger = LOGGER_MANAGER.get_logger("librarian.examples.level_rag")
+logger = LOGGER_MANAGER.get_logger("flexrag.examples.level_rag")
 
 
 @dataclass

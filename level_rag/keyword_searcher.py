@@ -3,14 +3,14 @@ import re
 from copy import deepcopy
 from dataclasses import dataclass
 
-from librarian.prompt import ChatPrompt, ChatTurn
-from librarian.retriever import (
+from flexrag.prompt import ChatPrompt, ChatTurn
+from flexrag.retriever import (
     ElasticRetriever,
     ElasticRetrieverConfig,
     RetrievedContext,
 )
-from librarian.utils import Choices, LoggerManager
-from librarian.assistant import SearchHistory, ASSISTANTS
+from flexrag.utils import Choices, LoggerManager
+from flexrag.assistant import SearchHistory, ASSISTANTS
 
 from .searcher import AgentSearcher, AgentSearcherConfig
 from .keyword import Keyword, Keywords

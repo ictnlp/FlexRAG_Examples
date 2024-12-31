@@ -4,11 +4,11 @@ import hydra
 from hydra.core.config_store import ConfigStore
 from omegaconf import MISSING
 
-from librarian.assistant import AssistantBase
-from librarian.data import IterableDataset
-from librarian.models import GenerationConfig, OpenAIGenerator, OpenAIGeneratorConfig
-from librarian.prompt import ChatPrompt, ChatTurn
-from librarian.retriever import DenseRetriever, DenseRetrieverConfig
+from flexrag.assistant import AssistantBase
+from flexrag.data import IterableDataset
+from flexrag.models import GenerationConfig, OpenAIGenerator, OpenAIGeneratorConfig
+from flexrag.prompt import ChatPrompt, ChatTurn
+from flexrag.retriever import DenseRetriever, DenseRetrieverConfig
 
 from prompts import Knowledge_Prompt
 

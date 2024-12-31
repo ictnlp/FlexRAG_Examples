@@ -4,13 +4,13 @@ from dataclasses import dataclass
 
 from omegaconf import MISSING
 
-from librarian.assistant import PREDEFINED_PROMPTS, AssistantBase, SearchHistory
-from librarian.models import GENERATORS, GenerationConfig
-from librarian.prompt import ChatPrompt, ChatTurn
-from librarian.retriever import RetrievedContext
-from librarian.utils import Choices, Register, LoggerManager
+from flexrag.assistant import PREDEFINED_PROMPTS, AssistantBase, SearchHistory
+from flexrag.models import GENERATORS, GenerationConfig
+from flexrag.prompt import ChatPrompt, ChatTurn
+from flexrag.retriever import RetrievedContext
+from flexrag.utils import Choices, Register, LOGGER_MANAGER
 
-logger = LoggerManager.get_logger(__name__)
+logger = LOGGER_MANAGER.get_logger(__name__)
 
 
 Searchers = Register("searchers")

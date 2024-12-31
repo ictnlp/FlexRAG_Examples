@@ -2,15 +2,15 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Optional
 
-from librarian.assistant import (
+from flexrag.assistant import (
     ASSISTANTS,
     PREDEFINED_PROMPTS,
     AssistantBase,
     SearchHistory,
 )
-from librarian.models import GENERATORS, GenerationConfig
-from librarian.retriever import DenseRetriever, DenseRetrieverConfig, RetrievedContext
-from librarian.prompt import ChatPrompt, ChatTurn
+from flexrag.models import GENERATORS, GenerationConfig
+from flexrag.retriever import DenseRetriever, DenseRetrieverConfig, RetrievedContext
+from flexrag.prompt import ChatPrompt, ChatTurn
 
 GeneratorConfig = GENERATORS.make_config()
 

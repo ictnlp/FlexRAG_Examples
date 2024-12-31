@@ -4,15 +4,15 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Optional
 
-from librarian.assistant import ASSISTANTS, AssistantBase, SearchHistory
-from librarian.retriever import (
+from flexrag.assistant import ASSISTANTS, AssistantBase, SearchHistory
+from flexrag.retriever import (
     RetrievedContext,
     WikipediaRetriever,
     WikipediaRetrieverConfig,
 )
-from librarian.prompt import ChatPrompt
-from librarian.models import GENERATORS, GenerationConfig
-from librarian.utils import LOGGER_MANAGER
+from flexrag.prompt import ChatPrompt
+from flexrag.models import GENERATORS, GenerationConfig
+from flexrag.utils import LOGGER_MANAGER
 
 
 logger = LOGGER_MANAGER.get_logger("ReAct")

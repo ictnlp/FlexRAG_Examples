@@ -3,9 +3,9 @@ import re
 from copy import deepcopy
 from dataclasses import dataclass
 
-from librarian.prompt import ChatTurn, ChatPrompt
-from librarian.retriever import RetrievedContext
-from librarian.assistant import SearchHistory, ASSISTANTS
+from flexrag.prompt import ChatTurn, ChatPrompt
+from flexrag.retriever import RetrievedContext
+from flexrag.assistant import SearchHistory, ASSISTANTS
 
 from .hybrid_searcher import HybridSearcher, HybridSearcherConfig
 
