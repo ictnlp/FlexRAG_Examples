@@ -26,4 +26,4 @@ class SimpleAssistant(AssistantBase):
         prompt.update(ChatTurn(role="user", content=prompt_str))
         response = self.generator.chat([prompt])[0][0]
         prompt.update(ChatTurn(role="assistant", content=response))
-        return response
+        return response, context, None
