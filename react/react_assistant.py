@@ -56,20 +56,33 @@ class ReActAssistant(AssistantBase):
         self.cfg = cfg
         return
 
-    def answer(
+    def answer_with_generation(
+        self, question: str
+    ) -> tuple[str, Optional[list[RetrievedContext]], Optional[dict]]:
+        if self.use_chat:
+            return self.answer_with_chat(question)
+        return self.answer_with_generation(question)
+
+    def answer_with_chat(
+        self, question: str
+    ) -> tuple[str, Optional[list[RetrievedContext]], Optional[dict]]:
+        raise NotImplementedError("Chat mode is not implemented yet.")
+
+    def answer_with_generation(
         self, question: str
     ) -> tuple[str, Optional[list[RetrievedContext]], Optional[dict]]:
         # retrieve
         history: list[SearchHistory] = []
 
         # perform react
+        answer = ""
         step = 1
         bad_steps = 0
+        prompt = self.gen_prompt + f"Question: {question}\nThought {step}: "
         while step <= self.max_steps:
             # generate thought and action
-            prompt = self.gen_prompt + question + "\n" + f"Thought {step}:"
             gen_cfg = deepcopy(self.cfg)
-            gen_cfg.stop_str = [f"\nObservation {step}:"]
+            gen_cfg.stop_str = [f"\nObservation {step}:", "\nQuestion:"]
             thought_action = self.generator.generate(
                 [prompt], generation_config=gen_cfg
             )[0][0]
@@ -94,7 +107,7 @@ class ReActAssistant(AssistantBase):
                 if ctx.data["summary"] is None:
                     observation = (
                         f"Could not find [{entity}]. "
-                        f"Similar entities: {ctx.data['similar_entities'][:5]}"
+                        f"Similar: {ctx.data['similar_entities'][:5]}"
                     )
                 else:
                     observation = ctx.data["summary"]
@@ -123,13 +136,14 @@ class ReActAssistant(AssistantBase):
 
             # update prompt
             step_str = (
-                f"Thought {step}: {thought}\n"
+                f"{thought}\n"
                 f"Action {step}: {action}\n"
                 f"Observation {step}: {observation}\n"
+                f"Thought {step + 1}: "
             )
             prompt += step_str
             step += 1
-        return answer, history, None
+        return answer, None, history
 
     def _construct_lookup_list(self, keyword: str, page: str = None) -> list[str]:
         # find all paragraphs
