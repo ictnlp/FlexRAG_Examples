@@ -1,0 +1,6 @@
+[submodule "levelrag"]
+	path = levelrag
+	url = git@github.com:ictnlp/LevelRAG.git
+[submodule "autorag"]
+	path = autorag
+	url = git@github.com:ictnlp/Auto-RAG.git

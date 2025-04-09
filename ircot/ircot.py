@@ -1,20 +1,18 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from flexrag.assistant import (
-    ASSISTANTS,
-    AssistantBase,
-    SearchHistory,
-)
+from flexrag.assistant import ASSISTANTS, AssistantBase, SearchHistory
+from flexrag.common_dataclass import RetrievedContext
 from flexrag.models import GENERATORS, GenerationConfig
-from flexrag.retriever import DenseRetriever, DenseRetrieverConfig, RetrievedContext
+from flexrag.retriever import RETRIEVERS, RetrieverConfig
 
 GeneratorConfig = GENERATORS.make_config()
 
 
 @dataclass
-class IRCoTAssistantConfig(GeneratorConfig, GenerationConfig, DenseRetrieverConfig):
+class IRCoTAssistantConfig(GeneratorConfig, GenerationConfig, RetrieverConfig):
     max_iteration: int = 5
+    retrieved_num: int = 5
 
 
 @ASSISTANTS("ircot", config_class=IRCoTAssistantConfig)
@@ -47,7 +45,8 @@ class IRCoTAssistant(AssistantBase):
 
     def __init__(self, cfg: IRCoTAssistantConfig) -> None:
         # load retriever
-        self.retriever = DenseRetriever(cfg)
+        self.retriever = RETRIEVERS.load(cfg)
+        self.retriever.top_k = cfg.retrieved_num
 
         # load generator
         self.generator = GENERATORS.load(cfg)
