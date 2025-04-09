@@ -2,39 +2,34 @@ from copy import deepcopy
 from dataclasses import dataclass
 from typing import Optional
 
-from flexrag.assistant import (
-    ASSISTANTS,
-    PREDEFINED_PROMPTS,
-    AssistantBase,
-    SearchHistory,
-)
+from flexrag.assistant import ASSISTANTS, AssistantBase, SearchHistory
+from flexrag.common_dataclass import RetrievedContext
 from flexrag.models import GENERATORS, GenerationConfig
-from flexrag.retriever import DenseRetriever, DenseRetrieverConfig, RetrievedContext
 from flexrag.prompt import ChatPrompt, ChatTurn
+from flexrag.retriever import RETRIEVERS, RetrieverConfig
 
 GeneratorConfig = GENERATORS.make_config()
 
 
 @dataclass
-class ITRGAssistantConfig(GeneratorConfig, GenerationConfig, DenseRetrieverConfig):
-    max_iteration: int = 2
-    prompt_path: Optional[str] = None
+class ITRGAssistantConfig(GeneratorConfig, GenerationConfig, RetrieverConfig):
+    max_iteration: int = 5
+    retrieval_num: int = 5
 
 
 @ASSISTANTS("itrg", "iter-retgen", config_class=ITRGAssistantConfig)
 class ITRGAssistant(AssistantBase):
+    prompt = ChatPrompt(
+        system="Please write a detailed answer to the question based on the knowledge provided.",
+    )
+
     def __init__(self, cfg: ITRGAssistantConfig) -> None:
         # load retriever
-        self.retriever = DenseRetriever(cfg)
+        self.retriever = RETRIEVERS.load(cfg)
+        self.retriever.top_k = cfg.retrieval_num
 
         # load generator
         self.generator = GENERATORS.load(cfg)
-
-        # load prompt
-        if cfg.prompt_path is None:
-            self.prompt = PREDEFINED_PROMPTS["shortform_with_context"]
-        else:
-            self.prompt = ChatPrompt.from_json(cfg.prompt_path)
 
         # set configs
         self.max_iter = cfg.max_iteration
@@ -61,18 +56,14 @@ class ITRGAssistant(AssistantBase):
     def answer_with_contexts(
         self, question: str, contexts: list[RetrievedContext] = []
     ) -> tuple[str, ChatPrompt]:
-        # prepare system prompts
-        prompt = deepcopy(self.prompt)
-
         # prepare user prompt
-        usr_prompt = ""
-        for n, context in enumerate(contexts):
-            ctx = ""
-            for field_name, field_value in context.data.items():
-                ctx += f"{field_name}: {field_value}\n"
-            usr_prompt += f"Context {n + 1}: {ctx}\n\n"
-        usr_prompt += f"Question: {question}"
-        prompt.update(ChatTurn(role="user", content=usr_prompt))
+        ctxs = [ctx.data.get("text", "") for ctx in contexts]
+        ctx_str = " ".join(ctxs)
+        user_prompt = f"Knowledge: {ctx_str}\nQuestion: {question}"
+
+        # prepare prompt
+        prompt = deepcopy(self.prompt)
+        prompt.update(ChatTurn(role="user", content=user_prompt))
 
         # generate response
         response = self.generator.chat([prompt], generation_config=self.cfg)[0][0]
