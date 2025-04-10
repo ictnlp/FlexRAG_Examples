@@ -5,11 +5,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 from flexrag.assistant import ASSISTANTS, AssistantBase, SearchHistory
-from flexrag.retriever import (
-    RetrievedContext,
-    WikipediaRetriever,
-    WikipediaRetrieverConfig,
-)
+from flexrag.common_dataclass import RetrievedContext
+from flexrag.retriever import WikipediaRetriever, WikipediaRetrieverConfig
 from flexrag.prompt import ChatPrompt
 from flexrag.models import GENERATORS, GenerationConfig
 from flexrag.utils import LOGGER_MANAGER
@@ -27,8 +24,6 @@ class ReActConfig(GeneratorConfig, GenerationConfig, WikipediaRetrieverConfig):
 
 @ASSISTANTS("react", config_class=ReActConfig)
 class ReActAssistant(AssistantBase):
-    is_hybrid = False
-
     def __init__(self, cfg: ReActConfig) -> None:
         # load retriever
         self.retriever = WikipediaRetriever(cfg)
@@ -56,7 +51,7 @@ class ReActAssistant(AssistantBase):
         self.cfg = cfg
         return
 
-    def answer_with_generation(
+    def answer(
         self, question: str
     ) -> tuple[str, Optional[list[RetrievedContext]], Optional[dict]]:
         if self.use_chat:
