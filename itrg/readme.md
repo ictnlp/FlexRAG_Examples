@@ -8,7 +8,7 @@ This is the reproduction of the paper:
 ITRG & ITER-RETGEN iterate retrieval and generation. In each iteration, they leverages the model output from the previous iteration as a specific context to help retrieve more relevant knowledge, which may help improve model generation.
 
 <center>
-<img src="./image.png" alt="IRCoT" width="50%"/>
+<img src="./image.png" alt="ITRG" width="50%"/>
 </center>
 
 ## Running the Method
@@ -19,11 +19,11 @@ bash ./run_generator.sh
 This script will start a `Qwen2-7B-Instruct` model server on port 8000. You can change the `MODEL_NAME` in the script if you want to use a different model.
 
 
-Then, run the following command to evaluate the IRCoT on the test set of `Natural Questions`:
+Then, run the following command to evaluate the ITRG on the test set of `Natural Questions`:
 ```bash
 bash ./run.sh
 ```
-This script will run the IRCoT method on the test set of `Natural Questions` and save the results in the `results` directory. You can change the `DATASET_NAME` and the `SPLIT` variables in the script to evaluate on different datasets.
+This script will run the ITRG method on the test set of `Natural Questions` and save the results in the `results` directory. You can change the `DATASET_NAME` and the `SPLIT` variables in the script to evaluate on different datasets.
 
 ## Experiments
 

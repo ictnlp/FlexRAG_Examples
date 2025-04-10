@@ -14,7 +14,7 @@ GeneratorConfig = GENERATORS.make_config()
 @dataclass
 class ITRGAssistantConfig(GeneratorConfig, GenerationConfig, RetrieverConfig):
     max_iteration: int = 5
-    retrieval_num: int = 5
+    retrieved_num: int = 5
 
 
 @ASSISTANTS("itrg", "iter-retgen", config_class=ITRGAssistantConfig)
@@ -26,7 +26,7 @@ class ITRGAssistant(AssistantBase):
     def __init__(self, cfg: ITRGAssistantConfig) -> None:
         # load retriever
         self.retriever = RETRIEVERS.load(cfg)
-        self.retriever.top_k = cfg.retrieval_num
+        self.retriever.top_k = cfg.retrieved_num
 
         # load generator
         self.generator = GENERATORS.load(cfg)
